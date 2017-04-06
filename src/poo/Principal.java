@@ -1,14 +1,18 @@
 package poo;
 
+import java.io.File;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Projeto exemplo para conhecer alguns componentes do Swing, seus eventos e propriedades
- * 
- * Esse projeto está incompleto e o aluno precisaria fazer os ajustes finais para 
- * que a aplicação fique correta.
- * 
+ * Projeto exemplo para conhecer alguns componentes do Swing, seus eventos e
+ * propriedades
+ *
+ * Esse projeto está incompleto e o aluno precisaria fazer os ajustes finais
+ * para que a aplicação fique correta.
+ *
  * @author Emerson Ribeiro de Mello
  */
 public class Principal extends javax.swing.JFrame {
@@ -17,7 +21,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         // O Frame será desenhado no centro da área de trabalho
         this.setLocationRelativeTo(null);
-        
+
         // Ou altera as propriedades do componente JList no editor de propriedades
         // do Netbeans ou faz por meio da linha abaixo
         //jLPermissoes.setModel(new DefaultListModel<>());
@@ -55,6 +59,12 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
         jBAdicionar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMIAbrir = new javax.swing.JMenuItem();
+        jMISalvar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMISair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Exemplo Java Swing");
@@ -240,6 +250,36 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jMenu1.setText("Arquivo");
+
+        jMIAbrir.setMnemonic('A');
+        jMIAbrir.setText("Abrir");
+        jMIAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIAbrirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIAbrir);
+
+        jMISalvar.setMnemonic('S');
+        jMISalvar.setText("Salvar");
+        jMISalvar.setToolTipText("");
+        jMenu1.add(jMISalvar);
+        jMenu1.add(jSeparator1);
+
+        jMISair.setMnemonic('r');
+        jMISair.setText("Sair");
+        jMISair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMISairActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMISair);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -297,18 +337,18 @@ public class Principal extends javax.swing.JFrame {
 
 
     private void jCBPermissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBPermissoesActionPerformed
-        
+
         // obtendo o índice do item selecionado
         int index = jCBPermissoes.getSelectedIndex();
-        
+
         if (index >= 0) {
             String permissao = jCBPermissoes.getItemAt(index);
 
             // adicionando elemento selecionado na lista
             DefaultListModel<String> modeloLista = (DefaultListModel<String>) jLPermissoes.getModel();
-            
+
             // só adiciona se o elemento não estiver na lista
-            if (! modeloLista.contains(permissao)){
+            if (!modeloLista.contains(permissao)) {
                 modeloLista.addElement(permissao);
             }
 
@@ -327,52 +367,66 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jBLimparActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-        
+
         DefaultListModel<String> modeloLista = (DefaultListModel<String>) jLPermissoes.getModel();
-        
+
         // percorrendo as linhas e as removendo
-        for(String item : jLPermissoes.getSelectedValuesList()){
+        for (String item : jLPermissoes.getSelectedValuesList()) {
             modeloLista.removeElement(item);
         }
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jBAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAdicionarActionPerformed
-        
-        
+
         DefaultTableModel modelo = (DefaultTableModel) jTableUsuarios.getModel();
         String linha[] = new String[5];
         linha[0] = jTFNome.getText();
         linha[1] = jFTFCpf.getText();
-        linha[2] =  (jRBFeminino.isSelected()) ? "Feminino " : "Masculino";
-        
-        if (jCBManha.isSelected()){
+        linha[2] = (jRBFeminino.isSelected()) ? "Feminino " : "Masculino";
+
+        if (jCBManha.isSelected()) {
             linha[3] = "Manha";
             // precisa terminar de fazer a lógica
         }
 
         DefaultListModel<String> modeloLista = (DefaultListModel<String>) jLPermissoes.getModel();
-        
+
         linha[4] = modeloLista.toString();
-        
+
         modelo.addRow(linha);
-        
+
         // limpando todos os campos
         jTFNome.setText("");
         // ..... falta fazer para os demais
-        
+
         //mudando o foco do teclado para o campo Nome
         jTFNome.requestFocus();
-        
-        
+
+
     }//GEN-LAST:event_jBAdicionarActionPerformed
 
     private void jTableUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMouseReleased
-        
+
         // habilitando o botão que permitirá remover as linhas selecionadas
         jBRemover.setEnabled(true);
-        
+
     }//GEN-LAST:event_jTableUsuariosMouseReleased
 
+    private void jMISairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISairActionPerformed
+        // feche a aplicação
+        System.exit(0);
+    }//GEN-LAST:event_jMISairActionPerformed
+
+    private void jMIAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAbrirActionPerformed
+        JFileChooser fc = new JFileChooser();
+        int retorno = fc.showOpenDialog(this);
+        
+        // se um arquivo foi selecionado, exiba um messageDialog
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            File arquivo = fc.getSelectedFile();
+            JOptionPane.showMessageDialog(this, arquivo.getName(), "O arquivo selecionado foi:", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jMIAbrirActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -422,6 +476,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JList<String> jLPermissoes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuItem jMIAbrir;
+    private javax.swing.JMenuItem jMISair;
+    private javax.swing.JMenuItem jMISalvar;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -430,6 +489,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRBMasculino;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTFNome;
     private javax.swing.JTable jTableUsuarios;
     // End of variables declaration//GEN-END:variables
